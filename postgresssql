@@ -1,1 +1,0 @@
-1.	create table department(dept_id bigint PRIMARY KEY NOT NULL,dept_name varchar(256),dept_loc varchar(256),dept_CreatedDate bigint,dept_status int);
