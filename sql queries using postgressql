@@ -1,0 +1,35 @@
+Assignment
+
+•	Create a Department, Employee table:
+1.	create table department(dept_id bigint PRIMARY KEY NOT NULL,dept_name varchar(256),dept_loc varchar(256),dept_CreatedDate bigint,dept_status int);
+
+2.	create table emp(emp_id bigint PRIMARY KEY NOT NULL,emp_name varchar(256),emp_salary decimal(7,2) check(emp_salary>0),emp_joining_date bigint,dept_id bigint references department(dept_id));
+
+•	Queries based on two tables:
+1.Get total number of Employees depatmentwise
+ select dept_name ,count(*) from emp,department where emp.dept_id=department.dept_id group by dept_name;
+2.Get Name of employee having max salary department wise
+ select emp_name,emp_salary,dept_name from emp inner join department on emp.dept_id=department.dept_id where (emp.dept_id,emp.emp_salary) in (select dept_id,max(emp_salary) from emp where department.dept_id=emp.dept_id group by emp.dept_id);
+3.Fetch Avg Salary Deparmentwise
+select avg(emp_salary),dept_name from emp,department where emp.dept_id=department.dept_id group by dept_name;
+4.Display Employee list with Department name
+select *,dept_name from emp,department where emp.dept_id=department.dept_id;
+5.Fetch name of employee whose name starts with letter A (ignore case sensitivity)
+select emp_name from emp where emp_name like 'A%';
+6.Get Name of Department in which no employees are working
+select * from department where dept_id NOT IN(select dept_id from emp);
+7.Get All the Active department
+select * from department where dept_id IN(select dept_id from emp);
+8.Get count of Active and Inactive department
+for active : select count(dept_status) from department where dept_status=1;
+   For inactive: select count(dept_status) from department where dept_status=0;
+
+9.Get Emp name with Department name working in more then one Dept.
+SELECT e.emp_name, count(d.dept_name) FROM emp e, department d  where e.dept_id=d.dept_id GROUP BY e.emp_name 
+HAVING COUNT(e.dept_id)>=2
+10.Get List of employs working with organization more than 2 years
+SELECT *FROM emp
+WHERE EXTRACT(YEAR FROM age(CURRENT_DATE, emp_joiningdate)) > 2;
+11.Get List of Employees wo joined in current year (i.e. 2020)
+SELECT *FROM emp WHERE  emp_joiningdate BETWEEN '01-01-2020' AND '01-12-2020';
+
